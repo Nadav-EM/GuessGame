@@ -15,6 +15,7 @@ const NavigationRouting = () => {
           component={HomeScreen}
           options={{
             title: "Welcome to Guess Game",
+
             headerStyle: {
               backgroundColor: "#ff1493",
             },
