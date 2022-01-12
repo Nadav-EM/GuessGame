@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../Screens/HomeScreen";
 import GameScreen from "../Screens/GameScreen";
+import GameOver from "../Screens/GameOver";
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,18 @@ const NavigationRouting = () => {
           component={GameScreen}
           options={{
             title: "Lets Play",
+            headerStyle: {
+              backgroundColor: "#ff1493",
+            },
+            headerTintColor: "white",
+            headerTitleAlign: "center",
+          }}
+        />
+        <Stack.Screen
+          name="GameOver"
+          component={GameOver}
+          options={{
+            title: "Game",
             headerStyle: {
               backgroundColor: "#ff1493",
             },

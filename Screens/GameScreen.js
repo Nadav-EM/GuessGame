@@ -4,15 +4,20 @@ import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
 
 const GameScreen = ({ route, navigation }) => {
   const [randomNumbers, setRandomNumbers] = useState(new Array(100).fill(0).map((_, index) => index + 1));
-  const [computerChoice, setComputerChoice] = useState(randomNumbers[Math.floor(Math.random() * 100)]);
+  const [computerChoice, setComputerChoice] = useState();
+  const [gameOver, setGameOver] = useState(false);
 
+  if (computerChoice == route.params.PlayerChoice) {
+    console.log("winner");
+  }
   useEffect(() => {
-    setComputerChoice(randomNumbers[Math.floor(Math.random() * randomNumbers.length)]);
+    setComputerChoice( () => randomNumbers[Math.floor(Math.random() * randomNumbers.length)]);
+    console.log(computerChoice);
   }, [randomNumbers]);
 
   const handleHigher = () => {
     if (computerChoice == route.params.PlayerChoice) {
-      console.log("WINNTER");
+      setGameOver(() => true);
       return;
     }
     setRandomNumbers((prevRandomNumber) => prevRandomNumber.filter((item) => item > computerChoice));
@@ -20,17 +25,16 @@ const GameScreen = ({ route, navigation }) => {
 
   const handleLower = () => {
     if (computerChoice == route.params.PlayerChoice) {
-      console.log("WINNTER");
+      setGameOver(() => true);
       return;
     }
-
     setRandomNumbers((prevRandomNumber) => prevRandomNumber.filter((item) => item < computerChoice));
   };
 
   return (
     <View style={styles.root}>
       <TouchableOpacity style={styles.button} activeOpacity={0.6}>
-        <Text style={styles.buttonText}>{computerChoice}</Text>
+        {computerChoice != route.params.PlayerChoice ? <Text style={styles.buttonText}>{computerChoice}</Text> : <Text style={styles.buttonText}>It's {computerChoice}!</Text>}
       </TouchableOpacity>
 
       <View style={styles.part1}>
@@ -46,9 +50,14 @@ const GameScreen = ({ route, navigation }) => {
       </View>
 
       <View style={styles.part2}>
-        <TouchableOpacity style={styles.button} activeOpacity={0.2} onPress={() => navigation.navigate("Home", { name: "Home" })}>
+        {/* <TouchableOpacity style={styles.button} activeOpacity={0.2} onPress={() => navigation.navigate("Home", { name: "Home" })}>
           <Text style={styles.buttonText}>Back Home</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        {gameOver && (
+          <TouchableOpacity style={styles.button} activeOpacity={0.2} onPress={() => navigation.navigate("GameOver", { name: "Home" })}>
+            <Text style={styles.buttonText}>Game Over</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
